@@ -4,15 +4,13 @@ namespace App\Livewire;
 
 use App\Models\Post as ModelsPost;
 use Livewire\Component;
+use Livewire\WithPagination;
 
 class Post extends Component
 {
-    public $posts = [];
+    use WithPagination;
 
-    public function mount()
-    {
-        $this->posts = ModelsPost::all();
-    }
+    public $search = '';
 
     public function deletePost(ModelsPost $post)
     {
@@ -24,6 +22,12 @@ class Post extends Component
 
     public function render()
     {
-        return view('livewire.admin.posts.posts', ['posts' => $this->posts])->layout('layouts.app');
+        if ($this->search) {
+            $posts = ModelsPost::where('title', 'like', '%' . $this->search . '%')->paginate(10);
+        } else {
+            $posts = ModelsPost::paginate(10);
+        }
+
+        return view('livewire.admin.posts.posts', ['posts' => $posts])->layout('layouts.app');
     }
 }
