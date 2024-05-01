@@ -3,6 +3,7 @@
 namespace App\Livewire;
 
 use App\Models\Post as ModelsPost;
+use Illuminate\Support\Facades\Storage;
 use Livewire\Component;
 use Livewire\WithPagination;
 
@@ -14,6 +15,10 @@ class Post extends Component
 
     public function deletePost(ModelsPost $post)
     {
+        if ($post->img_post) {
+            Storage::delete('/imgs_post',  $post->img_post, 'public');
+        }
+
         $post->delete();
 
         session()->flash('message', 'Post eliminato con successo');
