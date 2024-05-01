@@ -5,14 +5,19 @@ namespace App\Livewire;
 use App\Models\Category;
 use App\Models\Post;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 use Livewire\Component;
+use Livewire\WithFileUploads;
 
 class PostCreate extends Component
 {
+    use WithFileUploads;
+    
     public $user_id;
     public $category_id;
     public $title;
     public $description;
+    public $img_post;
 
     public function addPost()
     {
@@ -30,6 +35,13 @@ class PostCreate extends Component
         $this->category_id == null ? $new_post->category_id = null :  $new_post->category_id = $this->category_id;
         $new_post->title = $this->title;
         $new_post->description = $this->description;
+
+
+        if ($this->img_post) {
+            $url = Storage::putFile('/imgs_post',  $this->img_post , 'public');
+            $new_post->img_post = $url;
+        }
+
         $new_post->save();
 
         session()->flash('message', 'Post aggiunto correttamente');

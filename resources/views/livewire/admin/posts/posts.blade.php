@@ -2,8 +2,10 @@
      <section class="container p-4 mx-auto">
 
           <div class="my-5 flex justify-between items-center">
-               <button wire:navigate href="/posts/create" class="bg-gray-300 hover:bg-gray-400 px-5 py-2 rounded ">add</button>
-               <input wire:model.live.debounce.150ms="search" type="text" class="border-gray-200 rounded-md mb-2" placeholder="cerca...">
+               <button wire:navigate href="/posts/create"
+                    class="bg-gray-300 hover:bg-gray-400 px-5 py-2 rounded ">add</button>
+               <input wire:model.live.debounce.150ms="search" type="text" class="border-gray-200 rounded-md mb-2"
+                    placeholder="cerca...">
           </div>
 
           @include('livewire.admin.components.alert')
@@ -18,6 +20,10 @@
                               <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700 table-sm">
                                    <thead class="bg-gray-50 dark:bg-gray-800">
                                         <tr>
+                                             <th scope="col"
+                                                  class="py-3.5 px-4 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">
+                                                  img
+                                             </th>
                                              <th scope="col"
                                                   class="py-3.5 px-4 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">
                                                   titolo
@@ -40,7 +46,18 @@
                                    <tbody
                                         class="bg-white divide-y divide-gray-200 dark:divide-gray-700 dark:bg-gray-900">
                                         @foreach($posts as $post)
-                                        <tr >
+                                        <tr>
+                                             <td
+                                                  class="px-4 py-4 text-sm font-medium text-gray-700 dark:text-gray-200 whitespace-nowrap">
+                                                  @if($post->img_post)
+                                                  <img width="100" class="rounded-md shadow" src="{{ asset("storage/" .
+                                                       $post->img_post) }}" alt="{{$post->title}}" />
+                                                  @else
+                                                  <img width="100" class="rounded-md shadow"
+                                                       src="https://i1.wp.com/potafiori.com/wp-content/uploads/2020/04/placeholder.png"
+                                                       alt="placeholder" />
+                                                  @endif
+                                             </td>
                                              <td
                                                   class="px-4 py-4 text-sm font-medium text-gray-700 dark:text-gray-200 whitespace-nowrap">
                                                   {{$post->title}}
@@ -54,7 +71,7 @@
                                                   @if($post->category) {{ $post->category->name_category }} @else -
                                                   @endif
                                              </td>
-                                             <td 
+                                             <td
                                                   class="px-4 py-4 flex justify-center items-center text-sm font-medium text-gray-700 whitespace-nowrap">
                                                   <button wire:navigate href="posts/{{$post->id}}"
                                                        class="bg-blue-500 hover:bg-blue-600 px-5 py-2 rounded text-white">vedi</button>
@@ -67,7 +84,7 @@
                                         @endforeach
                                    </tbody>
                               </table>
-                           
+
                          </div>
                     </div>
                </div>
